@@ -1,17 +1,10 @@
 package com.edu.devexps;
 
-/**
- * Main class, it will call the magic method
- * @author Guido
- *
- */
-
-public class DFS {
+public class BFS {
 
 	public static void main(String[] args) {
+		Graph<String> g = new Graph<String>(4); // the graph will have 5 nodes
 
-		Graph<String> g = new Graph<String>(4); // the graph will have 4 nodes
-		
 		Node<String> node0 = new Node<String>("A");
 		Node<String> node1 = new Node<String>("B");
 		Node<String> node2 = new Node<String>("C");
@@ -28,8 +21,7 @@ public class DFS {
 	    g.addEdge(node2, node0);
 	    g.addEdge(node2, node3);
 	    
-	    
-	    g.DFS(node0);
+	    g.BFS(node0);
 	}
-
+	
 }

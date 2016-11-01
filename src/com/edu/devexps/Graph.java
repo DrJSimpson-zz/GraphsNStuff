@@ -1,11 +1,19 @@
 package com.edu.devexps;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
 
-public class Graph {
-	private List<List<Node>> adjList;
+public class Graph<T> {
+	private ArrayList<Node<T>> nodeList;
 
+	
+	public void addNodeToGraph(Node<T> n) {
+		nodeList.add(n);
+	}
+	
 	/**
 	 * Initialize the graph class, first, instance the "list list" and later
 	 * iterate initializing every sublist. The sublist are the adjacency list of
@@ -17,20 +25,7 @@ public class Graph {
 
 	public Graph(int size) {
 		super();
-		adjList = new ArrayList<List<Node>>();
-
-		for (int i = 0; i < size; i++) {
-			adjList.add(new ArrayList<Node>());
-
-		}
-	}
-
-	public List<List<Node>> getAdjList() {
-		return adjList;
-	}
-
-	public void setAdjList(List<List<Node>> adjList) {
-		this.adjList = adjList;
+		nodeList = new ArrayList<Node<T>>();
 	}
 
 	/**
@@ -39,8 +34,8 @@ public class Graph {
 	 * @param n
 	 */
 	
-	public void addEdge(int listIndex, Node n) {
-		adjList.get(listIndex).add(n);
+	public void addEdge(Node<T> fromNode, Node<T> toNode) {
+		nodeList.get(nodeList.indexOf(fromNode)).getAdjList().add(toNode);
 	}
 
 	/**
@@ -52,10 +47,10 @@ public class Graph {
 	 * @param start
 	 */
 
-	public void DFS(int start) {
-		boolean[] visited = new boolean[adjList.size()];
-		System.out.println("Starting DFS from -> " + start);
-		DFSUtil(start, visited);
+	public void DFS(Node<T> start) {
+		Set<Node<T>> visitedSet = new HashSet<Node<T>>();
+		System.out.println("Starting DFS from -> " + start.toString());
+		DFSUtil(start, visitedSet);
 	}
 
 	/**
@@ -68,14 +63,39 @@ public class Graph {
 	 * @param vertex
 	 * @param visited
 	 */
-	public void DFSUtil(int vertex, boolean[] visited) {
-		visited[vertex] = true;
-		System.out.println("Visited: " + vertex);
-		for (Node n : this.getAdjList().get(vertex)) {
-			if (visited[n.getValue()] == false) {
-				DFSUtil(n.getValue(), visited);
+	public void DFSUtil(Node<T> vertex, Set<Node<T>> visitedSet) {
+		System.out.println("Visited: " + vertex.toString());
+		visitedSet.add(vertex);
+		for (Node<T> n : vertex.getAdjList()) {
+			if (!visitedSet.contains(n)) {
+				DFSUtil(n, visitedSet);
 			}
 		}
 	}
 
+	public void BFS(Node<T> start) {
+		Set<Node<T>> visitedSet = new HashSet<Node<T>>();
+		
+		Queue<Node<T>> nodeQueue = new LinkedList<Node<T>>();
+		
+		nodeQueue.add(start); //start from here, ant take it's adj list
+		while(!nodeQueue.isEmpty()) {
+			visitedSet.add(nodeQueue.peek());
+			//Save a reference to the list, because we will use it later
+			LinkedList<Node<T>> adjListOfNode = nodeQueue.peek().getAdjList();
+			
+			//Show it and also poll it from the queue
+			System.out.println("Visited: " + nodeQueue.poll());
+			
+			for (Node<T> n : adjListOfNode) {
+				if (!visitedSet.contains(n) && !nodeQueue.contains(n)) {
+					nodeQueue.add(n);
+				}
+			}
+		}
+		
+		
+		
+	}
+	
 }
