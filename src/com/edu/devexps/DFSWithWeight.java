@@ -10,7 +10,7 @@ public class DFSWithWeight {
 
 	public static void main(String[] args) {
 
-		Graph<String> g = new Graph<String>(); // the graph will have 4 nodes
+		Graph<String> g = new Graph<String>();
 		
 		Node<String> node0 = new Node<String>("A");
 		Node<String> node1 = new Node<String>("B");
