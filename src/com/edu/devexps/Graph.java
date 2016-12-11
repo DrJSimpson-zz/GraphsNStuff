@@ -8,22 +8,16 @@ import java.util.Set;
 
 public class Graph<T> {
 	private ArrayList<Node<T>> nodeList;
-
 	
 	public void addNodeToGraph(Node<T> n) {
 		nodeList.add(n);
 	}
 	
-	/**
-	 * Initialize the graph class, first, instance the "list list" and later
-	 * iterate initializing every sublist. The sublist are the adjacency list of
-	 * each node.
-	 * 
-	 * @param size
-	 *            the amount of nodes that will be represented
+	/***
+	 * Initialize the graph class, instantiate the list of nodes
 	 */
 
-	public Graph(int size) {
+	public Graph() {
 		super();
 		nodeList = new ArrayList<Node<T>>();
 	}
@@ -36,6 +30,19 @@ public class Graph<T> {
 	
 	public void addEdge(Node<T> fromNode, Node<T> toNode) {
 		nodeList.get(nodeList.indexOf(fromNode)).getAdjList().add(toNode);
+	}
+	
+	/***
+	 * Adds a node adjacent to another (from -> to) and also adds the edge
+	 * to the graph
+	 * @param fromNode
+	 * @param toNode
+	 * @param weight
+	 */
+	public void addEdgeWithWeight(Node<T> fromNode, Node<T> toNode, Integer weight) {
+		//keep using this list for adjacency only, it might be useful
+		nodeList.get(nodeList.indexOf(fromNode)).getAdjList().add(toNode);
+		nodeList.get(nodeList.indexOf(fromNode)).getEdgeList().add(new Edge<T>(fromNode, toNode, weight));
 	}
 
 	/**
@@ -73,6 +80,10 @@ public class Graph<T> {
 		}
 	}
 
+	/**
+	 * Performs a Breadth first search, this method will check the neighbors first
+	 * @param start
+	 */
 	public void BFS(Node<T> start) {
 		Set<Node<T>> visitedSet = new HashSet<Node<T>>();
 		
@@ -93,9 +104,23 @@ public class Graph<T> {
 				}
 			}
 		}
-		
-		
-		
 	}
 	
+	public void DFSWithWeight(Node<T> start) {
+		Set<Node<T>> visitedSet = new HashSet<Node<T>>();
+		System.out.println("Starting DFS from -> " + start.toString());
+		DFSUtilWithWeight(start, visitedSet, start.getEdgeList(), 0);
+	}
+	
+	public void DFSUtilWithWeight(Node<T> vertex, Set<Node<T>> visitedSet, ArrayList<Edge<T>> edgeList, Integer weightAcum) {
+		System.out.println("Visited: " + vertex.toString() + "Current weight acumulated: " + weightAcum);
+		visitedSet.add(vertex);
+		for (Edge<T> e : vertex.getEdgeList()) {
+			if (!visitedSet.contains(e.getToNode())) {
+				Integer weightLocal = e.getWeight() + weightAcum;
+				System.out.println("Using edge from " + e.getFromNode() + " to " + e.getToNode());
+				DFSUtilWithWeight(e.getToNode(), visitedSet, vertex.getEdgeList(),weightLocal);
+			}
+		}
+	}
 }

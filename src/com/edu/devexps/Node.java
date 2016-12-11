@@ -1,9 +1,11 @@
 package com.edu.devexps;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
- * Just a dummy class! This will be replaced with anything later
+ * Generic node class
+ * It's composed by the T valua and a list of adjacency
  * @author Guido
  *
  */
@@ -11,6 +13,7 @@ import java.util.LinkedList;
 public class Node<T > {
 	private T value;
 	private LinkedList<Node<T>> adjList;
+	private ArrayList<Edge<T>> edgeList;
 	
 	public T getValue() {
 		return value;
@@ -33,6 +36,14 @@ public class Node<T > {
 		super();
 		this.value = value;
 		this.adjList = new LinkedList<Node<T>>();
+		this.edgeList = new ArrayList<Edge<T>>();
+	}
+	
+	public ArrayList<Edge<T>> getEdgeList() {
+		return edgeList;
+	}
+	public void setEdgeList(ArrayList<Edge<T>> edgeList) {
+		this.edgeList = edgeList;
 	}
 	@Override
 	public String toString() {

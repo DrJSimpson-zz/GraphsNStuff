@@ -6,7 +6,7 @@ package com.edu.devexps;
  *
  */
 
-public class DFS {
+public class DFSWithWeight {
 
 	public static void main(String[] args) {
 
@@ -22,14 +22,13 @@ public class DFS {
 		g.addNodeToGraph(node2);
 		g.addNodeToGraph(node3);
 		
-	    g.addEdge(node0, node1);
-	    g.addEdge(node0, node2);
-	    g.addEdge(node1, node3);
-	    g.addEdge(node2, node0);
-	    g.addEdge(node2, node3);
+	    g.addEdgeWithWeight(node0, node1, 15);
+	    g.addEdgeWithWeight(node0, node2, 20);
+	    g.addEdgeWithWeight(node1, node3, 25);
+	    g.addEdgeWithWeight(node2, node0, 10);
+	    g.addEdgeWithWeight(node2, node3, 5);
 	    
-	    
-	    g.DFS(node0);
+	    g.DFSWithWeight(node0);
 	}
 
 }
