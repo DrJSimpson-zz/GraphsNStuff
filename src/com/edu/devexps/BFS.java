@@ -1,5 +1,8 @@
 package com.edu.devexps;
 
+import com.edu.devexps.tads.Graph;
+import com.edu.devexps.tads.Node;
+
 public class BFS {
 
 	public static void main(String[] args) {

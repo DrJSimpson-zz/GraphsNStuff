@@ -1,4 +1,4 @@
-package com.edu.devexps;
+package com.edu.devexps.tads;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

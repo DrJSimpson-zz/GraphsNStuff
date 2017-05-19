@@ -1,8 +1,9 @@
-package com.edu.devexps;
+package com.edu.devexps.tads;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
@@ -49,7 +50,7 @@ public class Graph<T> {
 
 	/**
 	 * perform the Depth First Search, this method will initialize the visited
-	 * array and then call the recursive method that will actually perform the
+	 * set and then call the recursive method that will actually perform the
 	 * DFS this may not be of a lot of use, but by doing this we do not need to
 	 * have a visited array as a part of the class
 	 * 
@@ -140,6 +141,46 @@ public class Graph<T> {
 				System.out.println("Using edge from " + e.getFromNode() + " to " + e.getToNode());
 				DFSUtilWithWeight(e.getToNode(), visitedSet, vertex.getEdgeList(), weightLocal);
 			}
+		}
+	}
+
+	/**
+	 * This current revision has the issue that I made the mistake of
+	 * creating edges as directed, given that they have a from node and 
+	 * a to node. Still, I'll fix this eventaully, just let me enjoy this pls
+	 * @param start
+	 */
+	public void dijkstra(Node<T> start) {
+		int amountOfNodes = this.nodeList.size();
+		//Create priority queue
+		PriorityQueue<Edge<T>> prioq = new PriorityQueue<Edge<T>>();
+		//Create a set of nodes that are already in shortest path
+		Set<Node<T>> visitedSet = new HashSet<Node<T>>();
+		Set<Edge<T>> usedEdgeSet = new HashSet<Edge<T>>();
+		//Create a dummy edge, just to point out the fact that we already have
+		//a shortest path to our start edge
+		Edge<T> edge0 = new Edge<T>(start, start, 0);
+		
+		//Add it to the priority queue to start the algorithm
+		prioq.add(edge0);
+		
+		//this is as bas as not feeding your dog
+		while (!prioq.isEmpty() && visitedSet.size() < amountOfNodes) {
+			//get the edge with the shortest weight
+			Edge<T> actualEdge = prioq.poll();
+			usedEdgeSet.add(actualEdge);
+			System.out.println("Going from: " + actualEdge.getFromNode() + " to " +
+					actualEdge.getToNode() + " with a weight of " + actualEdge.getWeight());
+			//iterate over the edges that connects the start node
+			for (Edge<T> edge : actualEdge.getToNode().getEdgeList()) {
+				//make sure that we are not going back to a node that is already in the
+				//shortest path
+				if (!visitedSet.contains(edge.getToNode())
+						&& !usedEdgeSet.contains(edge)) {
+					prioq.add(edge);
+				}
+			}
+			visitedSet.add(actualEdge.getToNode());
 		}
 	}
 }

@@ -1,5 +1,8 @@
 package com.edu.devexps;
 
+import com.edu.devexps.tads.Graph;
+import com.edu.devexps.tads.Node;
+
 /**
  * Main class, it will call the magic method
  * @author Guido
